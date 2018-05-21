@@ -1,0 +1,37 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Longest {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Enter a sequence of numbers: ");
+		ArrayList<Double> numbers = new ArrayList<Double>();
+		while (scanner.hasNextDouble()) {
+		    numbers.add(scanner.nextDouble());
+		}
+		System.out.println("The length of the Longest Increasing Subsequence is: " + LongestSubsequence(numbers));
+		System.out.println("The length of the Arraylist is: " + numbers.size());
+	}
+	public static int LongestSubsequence (ArrayList<Double> numbers) {
+		if(numbers == null || numbers.size() == 0)
+	        return 0;
+	 
+	    int[] max = new int[numbers.size()];
+	    for(int i = 0; i < numbers.size(); i++){
+	        max[i] = 1;
+	        for(int j = 0; j < i;j++){
+	            if(numbers.get(i) > numbers.get(j)){
+	                max[i] = Math.max(max[i], max[j] + 1);
+	            }
+	        }
+	    }
+	    int result = 0;
+	    for(int i = 0; i < max.length; i++){
+	        if(max[i] > result)
+	            result = max[i];
+	    }
+	    return result;
+	    
+	}
+}

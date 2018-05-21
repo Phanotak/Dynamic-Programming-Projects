@@ -1,0 +1,53 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class MoreEfficient {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Enter a sequence of numbers: ");
+		ArrayList<Integer> numbers = new ArrayList<Integer>();
+		int s = numbers.size();
+		while (scanner.hasNextDouble()) {
+		    numbers.add(scanner.nextInt());
+		}
+		System.out.println("The length of the Longest Increasing Subsequence is: " + Longest(numbers));
+		System.out.println("The length of the Arraylist is: " + numbers.size());
+	}
+
+	public static int Longest (ArrayList<Integer> numbers) {
+		if(numbers == null || numbers.size() == 0)
+	        return 0;
+		
+		int[] tail = new int[numbers.size()];
+		int length;
+		tail[0] = numbers.get(0);
+		length = 1;
+		for(int i = 0; i < numbers.size(); i++) {
+			if(numbers.get(i) < tail[0])
+				tail[0] = numbers.get(i);
+			else if (numbers.get(i) > tail[length - 1])
+				tail[length++] = numbers.get(i);
+			else 
+				tail[Index(tail, -1, length-1, numbers.get(i))] = numbers.get(i);
+		}
+		
+		return length;
+	}
+	
+	public static int Index (int A[], int l, int r, int key)
+    {
+        while (r - l > 1)
+        {
+            int m = l + (r - l)/2;
+            if (A[m] >= key)
+                r = m;
+            else
+                l = m;
+        }
+ 
+        return r;
+    }
+}
+
+

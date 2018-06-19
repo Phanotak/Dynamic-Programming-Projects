@@ -1,0 +1,37 @@
+//Given a set of integers, the task is to divide it into two sets S1 and S2 such that the absolute difference between their 
+//sums is minimum.
+
+import java.util.ArrayList;
+import java.util.Scanner;
+ 
+public class MinPartition {
+     
+	public static void main(String[] args) 
+    {
+    	Scanner scanner = new Scanner (System.in);
+    	ArrayList<Integer> numsequence = new ArrayList<Integer>();
+    	System.out.println("Enter a sequence of integers: ");
+    	while(scanner.hasNextDouble())
+        	numsequence.add(scanner.nextInt());
+    	int n = numsequence.size();
+    	Integer[] array = new Integer[n];
+    	for(int i = 0; i < n; i++)
+    		array[i] = numsequence.get(i);
+        System.out.println("The minimum difference" + " between two sets is " + findMin(array, n));
+    }
+	
+    public static int findMin(Integer[] array, int n){
+        int sumTotal = 0;
+        for (int i = 0; i < n; i++)
+            sumTotal += array[i];
+        return findMinRec(array, n, 0, sumTotal);
+    }
+    
+    public static int findMinRec(Integer[] array, int n, int sumCalculated, int sumTotal){
+    	if (n == 0)
+            return Math.abs((sumTotal - sumCalculated) - sumCalculated);
+        
+        return Math.min(findMinRec(array, n - 1, sumCalculated + array[n - 1], sumTotal), findMinRec(array, n - 1, sumCalculated, sumTotal));
+    }
+    
+}

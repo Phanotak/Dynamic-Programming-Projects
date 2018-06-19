@@ -1,0 +1,51 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class MinPart {
+
+	public static void main(String[] args) 
+    {
+    	Scanner scanner = new Scanner (System.in);
+    	ArrayList<Integer> numsequence = new ArrayList<Integer>();
+    	System.out.println("Enter a sequence of integers: ");
+        while(scanner.hasNextDouble())
+        	numsequence.add(scanner.nextInt());
+        int n = numsequence.size();
+        Integer[] array = new Integer[n];
+    	for(int i = 0; i < n; i++)
+    		array[i] = numsequence.get(i);
+        System.out.print("The minimum difference" + " between two sets is " + findMin(array, n));
+    }
+
+	public static int findMin(Integer[] array, int n) {
+		int sum = 0;
+		n = array.length;
+        for (int i = 0; i < n; i++)
+            sum += array[i];
+        
+        boolean Storage[][] = new boolean[n + 1][sum + 1];
+        
+        for(int i = 0; i <= n; i++)
+        	Storage[i][0] = true;
+        
+        for(int i = 1; i <= sum; i++)
+        	Storage[0][i] = false;
+        
+        for(int i = 1; i <= n; i++){
+            for (int j = 1; j <= sum; j++){
+            	Storage[i][j] = Storage[i - 1][j];
+            	if(array[i - 1] <= j)
+            		Storage[i][j] |= Storage[i - 1][j - array[i - 1]];
+            	}
+        }
+        
+        int difference = Integer.MAX_VALUE;    		
+        for(int j = sum / 2; j >= 0; j++){
+            if (Storage[n][j] == true){
+                difference = sum - 2 * j;
+                break;
+            }
+        }
+        return difference;
+	}
+}

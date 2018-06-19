@@ -1,0 +1,56 @@
+import java.util.Scanner;
+
+public class MoreEfficientLCS {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		MoreEfficientLCS Longest = new MoreEfficientLCS();
+		
+		System.out.println("Enter the first sequence of letters: ");
+		String first = scanner.nextLine();
+		int s = first.length();
+		
+		
+		System.out.println("Enter the second sequence of letters: ");
+		String second = scanner.next();
+		int x = second.length();
+		Longest(first, second, s, x);
+	}
+	
+	public static void Longest (String first, String second, int s, int x) {
+		s = first.length();
+		x = second.length();
+		int [][] Length = new int[s+1][x+1];
+		for (int i = 0; i <= s; i++){
+	            for (int j = 0; j <= x; j++)
+	            {
+	                if (i == 0 || j == 0)
+	                    Length[i][j] = 0;
+	                else if (first.charAt(i-1) == second.charAt(j-1))
+	                    Length[i][j] = Length[i-1][j-1] + 1;
+	                else
+	                    Length[i][j] = Math.max(Length[i-1][j], Length[i][j-1]);
+	            }
+	    }
+		int index = Length[s][x];
+		int temp = index;
+		char[] longest = new char[index+1];
+	    longest[index] = ' ';
+	    int i = s, j = x;
+        while (i > 0 && j > 0){
+        	if(first.charAt(i-1) == second.charAt(j-1)) {
+        		longest[index-1] = first.charAt(i-1); 
+                i--; 
+                j--; 
+                index--; 
+        	}
+        else if (Length[i-1][j] > Length[i][j-1])
+                i--;
+        else
+                j--;
+        }	
+        System.out.println("Longest Common Subsequence of "+ first +" and " + second +" is: ");
+        for(int k = 0; k <= temp; k++)
+            System.out.print(longest[k]);
+	}
+}
